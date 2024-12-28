@@ -37,7 +37,7 @@ public class SteamJoinConnectionAcceptor implements ConnectionAcceptor<SteamConn
             public void onGameLobbyJoinRequested(SteamID steamID, SteamID lobbyId) {
                 if (!acceptPredicate.test(steamID))
                     return;
-                connections.add(new SteamConnection(steamID));
+                connections.add(SteamConnection.fromRequest(steamID));
             }
 
             @Override
@@ -54,7 +54,7 @@ public class SteamJoinConnectionAcceptor implements ConnectionAcceptor<SteamConn
             public void onGameRichPresenceJoinRequested(SteamID steamID, String s) {
                 if (!acceptPredicate.test(steamID))
                     return;
-                connections.add(new SteamConnection(steamID));
+                connections.add(SteamConnection.fromRequest(steamID));
             }
 
             @Override

@@ -18,13 +18,16 @@ public class SteamConnectionAcceptor implements ConnectionAcceptor<SteamConnecti
         this.networking = new SteamNetworking(new SteamNetworkingCallback() {
             @Override
             public void onP2PSessionConnectFail(SteamID steamID, SteamNetworking.P2PSessionError p2PSessionError) {
-
+                System.out.println("Failed to connect to client: " + steamID + " error: " + p2PSessionError);
+                if (p2PSessionError== SteamNetworking.P2PSessionError.Timeout)
+                    connections.add(SteamConnection.fromRequest(steamID));
             }
 
             @Override
             public void onP2PSessionRequest(SteamID steamID) {
                 if (!acceptPredicate.test(steamID))
                     return;
+                System.out.println("Starting networking session with remote " + steamID);
                 networking.acceptP2PSessionWithUser(steamID);
                 connections.add(SteamConnection.fromRequest(steamID));
             }
